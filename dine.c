@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#define NUM_CHILDREN 4
+
 
 int main() {
     pid_t ppid;
