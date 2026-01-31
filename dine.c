@@ -13,10 +13,9 @@ int main() {
     int i;
 
     int id[NUM_CHILDREN];
-    pthread_t = childid[NUM_CHILDREN];
+    pthread_t childid[NUM_CHILDREN];
 
     // initialize ids array
-    int i;
     for(i=0; i<NUM_CHILDREN; i++) {
         id[i] = i;
     }
@@ -31,13 +30,13 @@ int main() {
             NULL,
             child,
             (void *) &id[i]
-        )
+        );
     }
 
     // report error if there was one
     if (-1 == res) {
         fprintf(stderr, "Child %i: %s\n",i,strerror(res));
-        exit(-1)
+        exit(-1);
 
     }
 
