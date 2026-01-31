@@ -56,7 +56,7 @@ int main() {
     // wait for ach child to finish
     for(i=0; i<NUM_CHILDREN; i++) {
         pthread_join(childid[i], NULL);
-        printf("Parent (%d): child %d exited \n\n", (int ppid), i);
+        printf("Parent (%d): child %d exited.\n\n", (int) ppid, i);
 
     }
 
