@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <semaphore.h>
 #include "dawdle.h"
 
 #define NUM_PHILOSOPHERS 5
@@ -25,18 +26,18 @@ int main() {
     pid_t ppid;
     int i;
 
-    int id[NUM_CHILDREN];
-    pthread_t childid[NUM_CHILDREN];
+    int id[NUM_PHILOSOPHERS];
+    pthread_t childid[NUM_PHILOSOPHERS];
 
     // initialize ids array
-    for(i=0; i<NUM_CHILDREN; i++) {
+    for(i=0; i<NUM_PHILOSOPHERS; i++) {
         id[i] = i;
     }
 
     // parent process id
     ppid = getpid();
 
-    for(i=0; i<NUM_CHILDREN; i++) {
+    for(i=0; i<NUM_PHILOSOPHERS; i++) {
         int res;
         res = pthread_create(
             &childid[i],
@@ -57,7 +58,7 @@ int main() {
     printf("Parent (%d): Hello. \n\n", (int) ppid);
 
     // wait for ach child to finish
-    for(i=0; i<NUM_CHILDREN; i++) {
+    for(i=0; i<NUM_PHILOSOPHERS; i++) {
         pthread_join(childid[i], NULL);
         printf("Parent (%d): child %d exited.\n\n", (int) ppid, i);
 
