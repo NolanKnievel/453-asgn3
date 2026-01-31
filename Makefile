@@ -11,3 +11,5 @@ dine.o : dine.c
 dawdle.o : dawdle.c
 	$(CC) $(CFLAGS) -c dawdle.c
 
+clean : 
+	rm -f dine *.o
