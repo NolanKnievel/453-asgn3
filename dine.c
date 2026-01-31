@@ -4,12 +4,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include "dawdle.h"
 
-#define NUM_CHILDREN 4
+#define NUM_PHILOSOPHERS 5
+
+sem_t forks[NUM_PHILOSOPHERS];
+pthread_mutex_t print_lock;
 
 
-
-void *child(void *id) {
+void *philosopher(void *id) {
     int whoami = *(int *)id;
     printf("Child %d (%d): Hello.\n\n", whoami, (int) getpid());
     printf("Child %d (%d): Goodbye.\n\n", whoami, (int) getpid());
@@ -38,7 +41,7 @@ int main() {
         res = pthread_create(
             &childid[i],
             NULL,
-            child,
+            philosopher,
             (void *) &id[i]
         );
     
