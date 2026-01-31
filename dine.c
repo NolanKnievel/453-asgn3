@@ -31,14 +31,15 @@ int main() {
             child,
             (void *) &id[i]
         );
+    
+        // report error if there was one
+        if (-1 == res) {
+            fprintf(stderr, "Child %i: %s\n",i,strerror(res));
+            exit(-1);
+
+        }
     }
 
-    // report error if there was one
-    if (-1 == res) {
-        fprintf(stderr, "Child %i: %s\n",i,strerror(res));
-        exit(-1);
-
-    }
 
     printf("Parent (%d): Hello. \n\n", (int) ppid);
 
