@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <dawdle.h>
+#include "dawdle.h"
 
 #ifndef DAWDLEFACTOR
 #define DAWDLEFACTOR 1000
