@@ -8,6 +8,16 @@
 #define NUM_CHILDREN 4
 
 
+
+void *child(void *id) {
+    int whoami = *(int *)id;
+    printf("Child %d (%d): Hello.\n\n", whoami, (int) getpid());
+    printf("Child %d (%d): Goodbye.\n\n", whoami, (int) getpid());
+    return NULL;
+
+}
+
+
 int main() {
     pid_t ppid;
     int i;
@@ -52,13 +62,5 @@ int main() {
 
     printf("Parent (%d): Goodbye. \n\n", (int) ppid);
     return 0;
-
-}
-
-void *child(void *id) {
-    int whoami = *(int *)id;
-    printf("Child %d (%d): Hello.\n\n", whoami, (int) getpid());
-    printf("Child %d (%d): Goodbye.\n\n", whoami, (int) getpid());
-    return NULL;
 
 }
