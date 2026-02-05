@@ -260,13 +260,17 @@ int main(int argc, char *argv[]) {
 
     // initialize forks
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        if (sem_init(&forks[i], 0, 1) != 0)
+        if (sem_init(&forks[i], 0, 1) != 0) {
             perror("sem_init");
-            exit(EXIT_FAILURE);
+            exit(-1);
+
+        }
 
     // initialize print lock
-    if (sem_init(&print_lock, 0, 1) != 0)
-        die("sem_init");
+    if (sem_init(&print_lock, 0, 1) != 0) {
+        perror("sem_init");
+        exit(-1);
+    }
 
     // initialize philosopher structs
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
@@ -282,8 +286,11 @@ int main(int argc, char *argv[]) {
     // spin up phil threads passing id as arg
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         ids[i] = i;
-        if (pthread_create(&tids[i], NULL, philosopher, &ids[i]) != 0)
-            die("pthread_create");
+        if (pthread_create(&tids[i], NULL, philosopher, &ids[i]) != 0) {
+            perror("pthread_create");
+            exit(-1);
+        }
+
     }
 
     // wait for all threads to finish
