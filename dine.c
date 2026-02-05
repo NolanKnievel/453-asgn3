@@ -43,39 +43,46 @@ void die(const char *msg) {
 
 void dawdle() {
     struct timespec tv;
-    int msec = (int)(((double)random() / RAND_MAX) * DAWDLEFACTOR);
+    int msec;
+
+    msec = (int)(((double)random() / RAND_MAX) * DAWDLEFACTOR);
     tv.tv_sec = 0;
     tv.tv_nsec = msec * 1000000;
     nanosleep(&tv, NULL);
 }
 
-static int left_fork(int i) {
+int left_fork(int i) {
     return i;
 }
 
-static int right_fork(int i) {
+int right_fork(int i) {
     return (i + 1) % NUM_PHILOSOPHERS;
 }
 
 /* ---------- Printing ---------- */
 
-static void print_header() {
+void print_header() {
+    int i;
+
     printf("|");
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++)
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("=============|");
     printf("\n|");
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++)
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf(" %c           |", 'A' + i);
     printf("\n|");
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++)
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("=============|");
     printf("\n");
 }
 
-static void print_row() {
+void print_row() {
+    int i;
+    char forks_str[6];
+
     printf("|");
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
-        char forks_str[6] = "-----";
+    for (i = 0; i < NUM_PHILOSOPHERS; i++) {
+        strcpy(forks_str, "-----");
 
         if (philosophers[i].has_left)
             forks_str[left_fork(i)] = '0' + left_fork(i);
@@ -94,7 +101,7 @@ static void print_row() {
     printf("\n");
 }
 
-static void status_change() {
+void status_change() {
     sem_wait(&print_lock);
     print_row();
     sem_post(&print_lock);
@@ -102,7 +109,7 @@ static void status_change() {
 
 /* ---------- Fork Ops ---------- */
 
-static void pickup_fork(int phil, int fork, int is_left) {
+void pickup_fork(int phil, int fork, int is_left) {
     sem_wait(&forks[fork]);
     sem_wait(&print_lock);
     if (is_left)
@@ -113,7 +120,7 @@ static void pickup_fork(int phil, int fork, int is_left) {
     sem_post(&print_lock);
 }
 
-static void putdown_fork(int phil, int fork, int is_left) {
+void putdown_fork(int phil, int fork, int is_left) {
     sem_post(&forks[fork]);
     sem_wait(&print_lock);
     if (is_left)
@@ -127,18 +134,21 @@ static void putdown_fork(int phil, int fork, int is_left) {
 /* ---------- Philosopher Thread ---------- */
 
 void *philosopher(void *arg) {
-    int id = *(int *)arg;
-    int left = left_fork(id);
-    int right = right_fork(id);
+    int id;
+    int left;
+    int right;
+    int i;
 
-    for (int i = 0; i < cycles; i++) {
+    id = *(int *)arg;
+    left = left_fork(id);
+    right = right_fork(id);
+
+    for (i = 0; i < cycles; i++) {
         /* Hungry -> changing */
         philosophers[id].state = STATE_CHANGING;
         status_change();
 
-        /* Deadlock avoidance:
-           even -> right first
-           odd  -> left first */
+        /* Deadlock avoidance */
         if (id % 2 == 0) {
             pickup_fork(id, right, 0);
             pickup_fork(id, left, 1);
@@ -147,12 +157,10 @@ void *philosopher(void *arg) {
             pickup_fork(id, right, 0);
         }
 
-        /* Eat */
         philosophers[id].state = STATE_EATING;
         status_change();
         dawdle();
 
-        /* Transition to thinking */
         philosophers[id].state = STATE_CHANGING;
         status_change();
 
@@ -164,7 +172,6 @@ void *philosopher(void *arg) {
         dawdle();
     }
 
-    /* Terminating */
     philosophers[id].state = STATE_CHANGING;
     status_change();
     return NULL;
@@ -173,6 +180,11 @@ void *philosopher(void *arg) {
 /* ---------- Main ---------- */
 
 int main(int argc, char *argv[]) {
+    int i;
+    pthread_t tids[NUM_PHILOSOPHERS];
+    int ids[NUM_PHILOSOPHERS];
+    struct timeval tv;
+
     if (argc > 2) {
         fprintf(stderr, "usage: %s [cycles]\n", argv[0]);
         return EXIT_FAILURE;
@@ -186,21 +198,17 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /* Seed RNG */
-    struct timeval tv;
     gettimeofday(&tv, NULL);
     srandom(tv.tv_sec ^ tv.tv_usec);
 
-    /* Init semaphores */
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++)
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
         if (sem_init(&forks[i], 0, 1) != 0)
             die("sem_init");
 
     if (sem_init(&print_lock, 0, 1) != 0)
         die("sem_init");
 
-    /* Init philosophers */
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
+    for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         philosophers[i].state = STATE_CHANGING;
         philosophers[i].has_left = 0;
         philosophers[i].has_right = 0;
@@ -209,24 +217,21 @@ int main(int argc, char *argv[]) {
     print_header();
     status_change();
 
-    pthread_t tids[NUM_PHILOSOPHERS];
-    int ids[NUM_PHILOSOPHERS];
-
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
+    for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         ids[i] = i;
         if (pthread_create(&tids[i], NULL, philosopher, &ids[i]) != 0)
             die("pthread_create");
     }
 
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++)
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
         pthread_join(tids[i], NULL);
 
     printf("|");
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++)
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("=============|");
     printf("\n");
 
-    for (int i = 0; i < NUM_PHILOSOPHERS; i++)
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
         sem_destroy(&forks[i]);
     sem_destroy(&print_lock);
 
