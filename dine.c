@@ -38,7 +38,6 @@ void die(const char *msg) {
 }
 
 
-
 void dawdle() {
 /*
 * sleep for a random amount of time between 0 and DAWDLEFACTOR
@@ -54,13 +53,6 @@ void dawdle() {
     }
 }
 
-int left_fork(int i) {
-    return i;
-}
-
-int right_fork(int i) {
-    return (i + 1) % NUM_PHILOSOPHERS;
-}
 
 /* ---------- Printing ---------- */
 
@@ -88,9 +80,9 @@ void print_row() {
         strcpy(forks_str, "-----");
 
         if (philosophers[i].has_left)
-            forks_str[left_fork(i)] = '0' + left_fork(i);
+            forks_str[i] = '0' + i;
         if (philosophers[i].has_right)
-            forks_str[right_fork(i)] = '0' + right_fork(i);
+            forks_str[(i + 1) % NUM_PHILOSOPHERS] = '0' + (i + 1) % NUM_PHILOSOPHERS;
 
         printf(" %-5s", forks_str);
 
@@ -146,8 +138,8 @@ void *philosopher(void *arg) {
     id = *(int *)arg;
 
     // left and right fork locations
-    left = left_fork(id);
-    right = right_fork(id);
+    left = id;
+    right = (id + 1) % NUM_PHILOSOPHERS;
 
 
     // start of eat-think cycle
