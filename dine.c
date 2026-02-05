@@ -76,15 +76,14 @@ void print_header() {
 // helper function - prints row of philosopehr states
 void print_row() {
     int i;
+    int j;
     char forks_str[6];
-
-
 
     printf("|");
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         // initialize forks string
-        for (i=0; i<NUM_PHILOSOPHERS; i++) {
-            forks_str[i] = '-';
+        for(j=0; j<NUM_PHILOSOPHERS; j++) {
+            forks_str[j] = '-'
         }
 
         if (philosophers[i].has_left)
