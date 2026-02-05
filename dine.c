@@ -9,7 +9,7 @@
 #include <sys/time.h>
 
 #ifndef NUM_PHILOSOPHERS
-#define NUM_PHILOSOPHERS 3
+#define NUM_PHILOSOPHERS 5
 #endif
 
 #ifndef DAWDLEFACTOR
