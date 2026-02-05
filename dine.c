@@ -58,14 +58,14 @@ void dawdle() {
 void print_header() {
     int i;
     char equal_chars_str[NUM_PHILOSOPHERS+19];
-    char space_space_str[NUM_PHILOSOPHERS+5];
+    char equal_space_str[NUM_PHILOSOPHERS+5];
 
     equal_chars_str[NUM_PHILOSOPHERS+18] = '\0';
     for(i=0; i<NUM_PHILOSOPHERS+18; i++) {
         equal_chars_str[i] = '=';
     }
 
-    space_space_str[NUM_PHILOSOPHERS+4] = '\0';
+    equal_space_str[NUM_PHILOSOPHERS+4] = '\0';
     for(i=0; i<NUM_PHILOSOPHERS+4; i++) {
         equal_space_str[i] = ' ';
     }
