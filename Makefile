@@ -2,14 +2,21 @@ CC=gcc
 CFLAGS=-Wall -Werror -g -pthread
 
 
-dine : dawdle.o dine.o
-	$(CC) $(CFLAGS) -o dine dawdle.o dine.o -lpthread -lrt
+# dine : dawdle.o dine.o
+# 	$(CC) $(CFLAGS) -o dine dawdle.o dine.o -lpthread -lrt
 
-dine.o : dine.c
-	$(CC) $(CFLAGS) -c dine.c
+# dine.o : dine.c
+# 	$(CC) $(CFLAGS) -c dine.c
 
-dawdle.o : dawdle.c
-	$(CC) $(CFLAGS) -c dawdle.c
+# dawdle.o : dawdle.c
+# 	$(CC) $(CFLAGS) -c dawdle.c
 
-clean : 
-	rm -f dine *.o
+# clean : 
+# 	rm -f dine *.o
+
+
+dine: dine.c
+	$(CC) $(CFLAGS) dine.c -o dine -lrt
+
+clean:
+	rm -f dine
