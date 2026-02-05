@@ -127,7 +127,7 @@ void pickup_fork(int phil, int fork, int is_left) {
     sem_post(&print_lock);
 }
 
-void putdown_fork(int phil, int fork, int is_left) {
+void put_down_fork(int phil, int fork, int is_left) {
     sem_post(&forks[fork]);
     sem_wait(&print_lock);
     if (is_left)
@@ -180,8 +180,8 @@ void *philosopher(void *arg) {
         philosophers[id].state = STATE_CHANGING;
         status_change();
 
-        putdown_fork(id, left, 1);
-        putdown_fork(id, right, 0);
+        put_down_fork(id, left, 1);
+        put_down_fork(id, right, 0);
 
         // thinking
         philosophers[id].state = STATE_THINKING;
