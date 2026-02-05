@@ -16,14 +16,16 @@
 #define DAWDLEFACTOR 1000
 #endif
 
-typedef enum {
-    STATE_CHANGING,
-    STATE_EATING,
-    STATE_THINKING
-} state_t;
+// typedef enum {
+//     STATE_CHANGING,
+//     STATE_EATING,
+//     STATE_THINKING
+// } state_t;
 
+
+// philosopher struct
 typedef struct {
-    state_t state;
+    int state; // 0=changing, 1=eating, 2=thinking
     int has_left;
     int has_right;
 } philosopher_t;
@@ -98,9 +100,9 @@ void print_row() {
 
         printf(" %-5s", forks_str);
 
-        if (philosophers[i].state == STATE_EATING)
+        if (philosophers[i].state == 1)
             printf(" Eat   |");
-        else if (philosophers[i].state == STATE_THINKING)
+        else if (philosophers[i].state == 2)
             printf(" Think |");
         else
             printf("       |");
@@ -157,7 +159,7 @@ void *philosopher(void *arg) {
     // start of eat-think cycle
     for (i = 0; i < cycles; i++) {
         // hungry - changing
-        philosophers[id].state = STATE_CHANGING;
+        philosophers[id].state = 0;
         wait_and_print();
 
         // avoid deadlock
@@ -171,27 +173,27 @@ void *philosopher(void *arg) {
         }
 
         // eating
-        philosophers[id].state = STATE_EATING;
+        philosophers[id].state = 1;
         wait_and_print();
         // dawdle while eating
         dawdle();
 
         // changing
-        philosophers[id].state = STATE_CHANGING;
+        philosophers[id].state = 0;
         wait_and_print();
 
         put_down_fork(id, left, 1);
         put_down_fork(id, right, 0);
 
         // thinking
-        philosophers[id].state = STATE_THINKING;
+        philosophers[id].state = 2;
         wait_and_print();
         // dawdle while thinking
         dawdle();
     }
 
     // one last print
-    philosophers[id].state = STATE_CHANGING;
+    philosophers[id].state = 0;
     wait_and_print();
     return NULL;
 }
@@ -224,7 +226,7 @@ int main(int argc, char *argv[]) {
         die("sem_init");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
-        philosophers[i].state = STATE_CHANGING;
+        philosophers[i].state = 0;
         philosophers[i].has_left = 0;
         philosophers[i].has_right = 0;
     }
