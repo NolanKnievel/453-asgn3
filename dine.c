@@ -153,7 +153,6 @@ void print_row() {
 }
 
 
-// helper to keep printing synchronized
 void status_change() {
     sem_wait(&print_lock);
     print_row();
@@ -162,8 +161,8 @@ void status_change() {
 
 // helper - wait for fork and take semaphore, print new row to show action
 void pickup_fork(int phil, int fork, int is_left) {
-    sem_wait(&forks[fork]);
     sem_wait(&print_lock);
+    sem_wait(&forks[fork]);
     if (is_left)
         philosophers[phil].has_left = 1;
     else
