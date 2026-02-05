@@ -90,7 +90,7 @@ void print_header() {
 
         printf("|");
     }
-    printf("\n");
+    printf("\n|");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("%s|", equal_chars_str);
