@@ -58,17 +58,17 @@ void dawdle() {
 void print_header() {
     int i;
     char equal_chars_str[NUM_PHILOSOPHERS+19];
-    char equal_space_str[NUM_PHILOSOPHERS+5];
+    // char equal_space_str[NUM_PHILOSOPHERS+5];
 
     equal_chars_str[NUM_PHILOSOPHERS+18] = '\0';
     for(i=0; i<NUM_PHILOSOPHERS+18; i++) {
         equal_chars_str[i] = '=';
     }
 
-    equal_space_str[NUM_PHILOSOPHERS+4] = '\0';
-    for(i=0; i<NUM_PHILOSOPHERS+4; i++) {
-        equal_space_str[i] = ' ';
-    }
+    // equal_space_str[NUM_PHILOSOPHERS+4] = '\0';
+    // for(i=0; i<NUM_PHILOSOPHERS+4; i++) {
+    //     equal_space_str[i] = ' ';
+    // }
 
 
 
@@ -78,8 +78,7 @@ void print_header() {
     printf("\n|");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        printf(" %-*c |", NUM_PHILOSOPHERS, 'A' + i);
-        printf(" %c%s", 'A'+i, equal_space_str);
+        printf(" %-*c |", NUM_PHILOSOPHERS + 2, 'A' + i);
     printf("\n|");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
