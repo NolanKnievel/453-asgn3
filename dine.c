@@ -101,7 +101,7 @@ void print_row() {
         if (philosophers[i].state == STATE_EATING)
             printf(" Eat    |");
         else if (philosophers[i].state == STATE_THINKING)
-            printf(" Think    |");
+            printf(" Think  |");
         else
             printf("        |");
     }
