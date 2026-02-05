@@ -239,9 +239,9 @@ void *philosopher(void *arg) {
         status_change();
     }
 
-    // one last print
-    philosophers[id].state = 0;
-    status_change();
+    // // one last print
+    // philosophers[id].state = 0;
+    // status_change();
     return NULL;
 }
 
