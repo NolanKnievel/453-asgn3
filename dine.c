@@ -200,7 +200,7 @@ void *philosopher(void *arg) {
     // start of eat-think cycle
     for (i = 0; i < cycles; i++) {
         // hungry - changing
-        philosophers[id].state = 0;
+        // philosophers[id].state = 0;
         // status_change();
 
         // avoid deadlock
@@ -222,7 +222,7 @@ void *philosopher(void *arg) {
 
         // changing
         philosophers[id].state = 0;
-        // status_change();
+        status_change();
 
         put_down_fork(id, left, 1);
         put_down_fork(id, right, 0);
@@ -233,6 +233,10 @@ void *philosopher(void *arg) {
         
         // dawdle while thinking
         dawdle();
+
+        // back to changing
+        philosophers[id].state = 0;
+        status_change();
     }
 
     // one last print
