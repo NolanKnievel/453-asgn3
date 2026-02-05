@@ -77,8 +77,8 @@ void print_header() {
 void print_row() {
     int i;
     int j;
-    char forks_str[6];
-
+    char forks_str[NUM_PHILOSOPHERS + 1];
+    forks_str[NUM_PHILOSOPHERS] = '\0';
     printf("|");
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         // initialize forks string
@@ -90,8 +90,9 @@ void print_row() {
             forks_str[i] = '0' + i;
         if (philosophers[i].has_right)
             forks_str[(i + 1) % NUM_PHILOSOPHERS] = '0' + (i + 1) % NUM_PHILOSOPHERS;
-
-        printf(" %-5s", forks_str);
+    
+        // print forks string
+        printf(" %*s", NUM_PHILOSOPHERS, forks_str);
 
         if (philosophers[i].state == 1)
             printf(" Eat   |");
