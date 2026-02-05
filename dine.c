@@ -108,7 +108,7 @@ void print_row() {
     printf("\n");
 }
 
-void status_change() {
+void wait_and_print() {
     sem_wait(&print_lock);
     print_row();
     sem_post(&print_lock);
@@ -158,7 +158,7 @@ void *philosopher(void *arg) {
     for (i = 0; i < cycles; i++) {
         // hungry - changing
         philosophers[id].state = STATE_CHANGING;
-        status_change();
+        wait_and_print();
 
         // avoid deadlock
         // odds pickup left fork first, evens right fork
@@ -172,27 +172,27 @@ void *philosopher(void *arg) {
 
         // eating
         philosophers[id].state = STATE_EATING;
-        status_change();
+        wait_and_print();
         // dawdle while eating
         dawdle();
 
         // changing
         philosophers[id].state = STATE_CHANGING;
-        status_change();
+        wait_and_print();
 
         put_down_fork(id, left, 1);
         put_down_fork(id, right, 0);
 
         // thinking
         philosophers[id].state = STATE_THINKING;
-        status_change();
+        wait_and_print();
         // dawdle while thinking
         dawdle();
     }
 
     // one last print
     philosophers[id].state = STATE_CHANGING;
-    status_change();
+    wait_and_print();
     return NULL;
 }
 
