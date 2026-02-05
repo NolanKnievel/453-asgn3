@@ -201,7 +201,7 @@ void *philosopher(void *arg) {
     for (i = 0; i < cycles; i++) {
         // hungry - changing
         philosophers[id].state = 0;
-        status_change();
+        // status_change();
 
         // avoid deadlock
         // odds pickup left fork first, evens right fork
@@ -222,7 +222,7 @@ void *philosopher(void *arg) {
 
         // changing
         philosophers[id].state = 0;
-        status_change();
+        // status_change();
 
         put_down_fork(id, left, 1);
         put_down_fork(id, right, 0);
