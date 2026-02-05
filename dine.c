@@ -32,7 +32,6 @@ static sem_t print_lock; // semaphore to keep printing in sync
 
 static int cycles = 1;
 
-/* ---------- Utilities ---------- */
 
 void die(const char *msg) {
     perror(msg);
@@ -161,8 +160,8 @@ void status_change() {
 
 // helper - wait for fork and take semaphore, print new row to show action
 void pickup_fork(int phil, int fork, int is_left) {
-    sem_wait(&print_lock);
     sem_wait(&forks[fork]);
+    sem_wait(&print_lock);
     if (is_left)
         philosophers[phil].has_left = 1;
     else
@@ -183,8 +182,7 @@ void put_down_fork(int phil, int fork, int is_left) {
     sem_post(&print_lock);
 }
 
-/* ---------- Philosopher Thread ---------- */
-
+// philosopher thread     sem_wait(&forks[fork]);
 void *philosopher(void *arg) {
     int id;
     int left;
@@ -243,7 +241,6 @@ void *philosopher(void *arg) {
     return NULL;
 }
 
-/* ---------- Main ---------- */
 
 int main(int argc, char *argv[]) {
     int i; // for loops
