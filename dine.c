@@ -135,7 +135,8 @@ void print_row() {
         if (philosophers[i].has_left)
             forks_str[i] = '0' + i;
         if (philosophers[i].has_right)
-            forks_str[(i + 1) % NUM_PHILOSOPHERS] = '0' + (i + 1) % NUM_PHILOSOPHERS;
+            forks_str[(i + 1) % NUM_PHILOSOPHERS] = 
+        '0' + (i + 1) % NUM_PHILOSOPHERS;
     
         // print forks string
         printf(" %*s", NUM_PHILOSOPHERS, forks_str);
