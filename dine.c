@@ -79,6 +79,7 @@ void print_header() {
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf(" %-*c |", NUM_PHILOSOPHERS, 'A' + i);
+        printf(" %c%s", 'A'+i, equal_space_str);
     printf("\n|");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
