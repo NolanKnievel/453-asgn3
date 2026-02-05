@@ -202,9 +202,9 @@ void *philosopher(void *arg) {
 
     // start of eat-think cycle
     for (i = 0; i < cycles; i++) {
-        // hungry - changing
-        philosophers[id].state = 0;
-        status_change();
+        // // hungry - changing
+        // philosophers[id].state = 0;
+        // status_change();
 
         // avoid deadlock
         // odds pickup left fork first, evens right fork
@@ -222,9 +222,9 @@ void *philosopher(void *arg) {
         // dawdle while eating
         dawdle();
 
-        // changing
-        philosophers[id].state = 0;
-        status_change();
+        // // changing
+        // philosophers[id].state = 0;
+        // status_change();
 
         put_down_fork(id, left, 1);
         put_down_fork(id, right, 0);
@@ -237,8 +237,8 @@ void *philosopher(void *arg) {
     }
 
     // one last print
-    philosophers[id].state = 0;
-    status_change();
+    // philosophers[id].state = 0;
+    // status_change();
     return NULL;
 }
 
