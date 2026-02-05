@@ -97,6 +97,25 @@ void print_header() {
     printf("\n");
 }
 
+// helper to print footer
+void print_footer() {
+    int i, j;
+    char equal_chars_str[COL_WIDTH + 1];
+
+    // build ===== string
+    for (j = 0; j < COL_WIDTH; j++)
+        equal_chars_str[j] = '=';
+
+    equal_chars_str[COL_WIDTH] = '\0';
+
+    // print
+    printf("|");
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
+        printf("%s|", equal_chars_str);
+    printf("\n");
+}
+
+
 // helper function - prints row of philosopehr states
 void print_row() {
     int i;
@@ -276,11 +295,8 @@ int main(int argc, char *argv[]) {
         pthread_join(tids[i], NULL);
 
     // print bottom
-    printf("|");
-    for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        printf("=============|");
-    printf("\n");
-
+    print_footer();
+    
     // destroy sempahores
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         sem_destroy(&forks[i]);
