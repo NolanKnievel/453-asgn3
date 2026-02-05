@@ -62,15 +62,18 @@ void print_header() {
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("=============|");
     printf("\n|");
+
+    // print philosopher character, starting from A
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf(" %c           |", 'A' + i);
     printf("\n|");
+
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("=============|");
     printf("\n");
 }
 
-// helper function to print philosopher state
+// helper function - prints row of philosopehr states
 void print_row() {
     int i;
     char forks_str[6];
@@ -103,8 +106,7 @@ void status_change() {
     sem_post(&print_lock);
 }
 
-/* ---------- Fork Ops ---------- */
-
+// helper - wait for fork and take semaphore, print new row to show action
 void pickup_fork(int phil, int fork, int is_left) {
     sem_wait(&forks[fork]);
     sem_wait(&print_lock);
@@ -116,6 +118,7 @@ void pickup_fork(int phil, int fork, int is_left) {
     sem_post(&print_lock);
 }
 
+// helper - release semaphore, print new row to show action
 void put_down_fork(int phil, int fork, int is_left) {
     sem_post(&forks[fork]);
     sem_wait(&print_lock);
@@ -188,53 +191,63 @@ void *philosopher(void *arg) {
 /* ---------- Main ---------- */
 
 int main(int argc, char *argv[]) {
-    int i;
-    pthread_t tids[NUM_PHILOSOPHERS];
-    int ids[NUM_PHILOSOPHERS];
+    int i; // for loops
+    pthread_t tids[NUM_PHILOSOPHERS]; // pthread ids
+    int ids[NUM_PHILOSOPHERS]; // philosopher ids
 
+    // check arg count
     if (argc > 2) {
         fprintf(stderr, "usage: %s [cycles]\n", argv[0]);
-        return EXIT_FAILURE;
+        return -1;
     }
-
+    
+    // get cycles if provided
     if (argc == 2) {
         cycles = atoi(argv[1]);
         if (cycles <= 0) {
             fprintf(stderr, "cycles must be positive\n");
-            return EXIT_FAILURE;
+            return -1;
         }
     }
 
+    // initialize forks
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         if (sem_init(&forks[i], 0, 1) != 0)
             die("sem_init");
 
+    // initialize print lock
     if (sem_init(&print_lock, 0, 1) != 0)
         die("sem_init");
 
+    // initialize philosopher structs
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         philosophers[i].state = 0;
         philosophers[i].has_left = 0;
         philosophers[i].has_right = 0;
     }
 
+    // print out start
     print_header();
     status_change();
 
+    // spin up phil threads passing id as arg
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         ids[i] = i;
         if (pthread_create(&tids[i], NULL, philosopher, &ids[i]) != 0)
             die("pthread_create");
     }
 
+    // wait for all threads to finish
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         pthread_join(tids[i], NULL);
 
+    // print bottom
     printf("|");
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("=============|");
     printf("\n");
 
+    // destroy sempahores
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         sem_destroy(&forks[i]);
     sem_destroy(&print_lock);
