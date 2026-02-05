@@ -78,9 +78,14 @@ void print_row() {
     int i;
     char forks_str[6];
 
+
+
     printf("|");
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
-        strcpy(forks_str, "-----");
+        // initialize forks string
+        for (i=0; i<NUM_PHILOSOPHERS; i++) {
+            forks_str[i] = '-';
+        }
 
         if (philosophers[i].has_left)
             forks_str[i] = '0' + i;
