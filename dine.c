@@ -41,14 +41,20 @@ void die(const char *msg) {
     exit(EXIT_FAILURE);
 }
 
-void dawdle() {
-    struct timespec tv;
-    int msec;
 
-    msec = (int)(((double)random() / RAND_MAX) * DAWDLEFACTOR);
-    tv.tv_sec = 0;
-    tv.tv_nsec = msec * 1000000;
-    nanosleep(&tv, NULL);
+
+void dawdle() {
+/*
+* sleep for a random amount of time between 0 and DAWDLEFACTOR
+* milliseconds.
+*/
+    struct timespec tv;
+    int msec = (int)((((double)random()) / RAND MAX) * DAWDLEFACTOR);
+    tv.tv sec = 0;
+    tv.tv nsec = 1000000 * msec;
+    if ( −1 == nanosleep(&tv,NULL) ) {
+        perror("nanosleep");
+    }
 }
 
 int left_fork(int i) {
@@ -197,9 +203,6 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
     }
-
-    gettimeofday(&tv, NULL);
-    srandom(tv.tv_sec ^ tv.tv_usec);
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         if (sem_init(&forks[i], 0, 1) != 0)
