@@ -57,10 +57,10 @@ void dawdle() {
 // helper function to print the header
 void print_header() {
     int i;
-    char equal_chars_str[NUM_PHILOSOPHERS+10];
+    char equal_chars_str[NUM_PHILOSOPHERS+19];
 
-    equal_chars_str[NUM_PHILOSOPHERS+9] = '\0';
-    for(i=0; i<NUM_PHILOSOPHERS+9; i++) {
+    equal_chars_str[NUM_PHILOSOPHERS+8] = '\0';
+    for(i=0; i<NUM_PHILOSOPHERS+8; i++) {
         equal_chars_str[i] = '=';
     }
 
