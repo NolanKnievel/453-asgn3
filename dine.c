@@ -57,19 +57,24 @@ void dawdle() {
 // helper function to print the header
 void print_header() {
     int i;
+    int equal_chars_str[NUM_PHILOSOPHERS+4];
+
+    equal_chars_str[NUM_PHILOSOPHERS+3] = '\0';
+    for(i=0; i<NUM_PHILOSOPHERS+3; i++) {
+        equal_chars_str[i] = '=';
+    }
 
     printf("|");
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        printf("=============|");
-    printf("\n|");
-
-    // print philosopher character, starting from A
-    for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        printf(" %c           |", 'A' + i);
+        printf("%s|", equal_chars_str);
     printf("\n|");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        printf("=============|");
+        printf(" %-*c |", NUM_PHILOSOPHERS, 'A' + i);
+    printf("\n|");
+
+    for (i = 0; i < NUM_PHILOSOPHERS; i++)
+        printf("%s|", equal_chars_str);
     printf("\n");
 }
 
