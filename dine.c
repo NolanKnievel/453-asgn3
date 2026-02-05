@@ -207,13 +207,10 @@ int main(int argc, char *argv[]) {
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         if (sem_init(&forks[i], 0, 1) != 0)
-            perror("sem_init");
-            exit(EXIT_FAILURE);
+            die("sem_init");
 
     if (sem_init(&print_lock, 0, 1) != 0)
-        perror("sem_init");
-        exit(EXIT_FAILURE);
-
+        die("sem_init");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         philosophers[i].state = 0;
@@ -227,9 +224,7 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         ids[i] = i;
         if (pthread_create(&tids[i], NULL, philosopher, &ids[i]) != 0)
-            perror("pthread_create");
-            exit(EXIT_FAILURE);
-
+            die("pthread_create");
     }
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
