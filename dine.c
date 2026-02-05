@@ -59,6 +59,7 @@ void dawdle() {
 // helper function to print the header
 void print_header() {
     int i;
+    int j;
     char equal_chars_str[COL_WIDTH+1];
     // char equal_space_str[NUM_PHILOSOPHERS+5];
 
