@@ -232,7 +232,8 @@ void *philosopher(void *arg) {
         // thinking
         philosophers[id].state = 2;
         status_change();
-        dawdle while thinking
+        
+        // dawdle while thinking
         dawdle();
     }
 
