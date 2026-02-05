@@ -16,7 +16,7 @@
 #define DAWDLEFACTOR 1000
 #endif
 
-#define COL_WIDTH (NUM_PHILOSOPHERS * 2 + 7)
+#define COL_WIDTH (NUM_PHILOSOPHERS * 2 + 5)
 
 
 // philosopher struct
