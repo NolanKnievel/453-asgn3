@@ -78,7 +78,7 @@ void print_header() {
     printf("\n|");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        printf(" %-*c |", NUM_PHILOSOPHERS + 2, 'A' + i);
+        printf(" %-*c |", NUM_PHILOSOPHERS + 10, 'A' + i);
     printf("\n|");
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
