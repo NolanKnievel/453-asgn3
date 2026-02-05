@@ -99,11 +99,11 @@ void print_row() {
         printf(" %-5s", forks_str);
 
         if (philosophers[i].state == STATE_EATING)
-            printf(" Eat    |");
+            printf(" Eat   |");
         else if (philosophers[i].state == STATE_THINKING)
-            printf(" Think  |");
+            printf(" Think |");
         else
-            printf("        |");
+            printf("       |");
     }
     printf("\n");
 }
