@@ -261,7 +261,8 @@ int main(int argc, char *argv[]) {
     // initialize forks
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         if (sem_init(&forks[i], 0, 1) != 0)
-            die("sem_init");
+            perror("sem_init");
+            exit(EXIT_FAILURE);
 
     // initialize print lock
     if (sem_init(&print_lock, 0, 1) != 0)
