@@ -202,9 +202,9 @@ void *philosopher(void *arg) {
 
     // start of eat-think cycle
     for (i = 0; i < cycles; i++) {
-        // // hungry - changing
-        // philosophers[id].state = 0;
-        // status_change();
+        // hungry - changing
+        philosophers[id].state = 0;
+        status_change();
 
         // avoid deadlock
         // odds pickup left fork first, evens right fork
