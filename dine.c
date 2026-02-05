@@ -33,12 +33,6 @@ static sem_t print_lock; // semaphore to keep printing in sync
 static int cycles = 1;
 
 
-void die(const char *msg) {
-    perror(msg);
-    exit(EXIT_FAILURE);
-}
-
-
 void dawdle() {
 /*
 * sleep for a random amount of time between 0 and DAWDLEFACTOR
@@ -138,7 +132,7 @@ void print_row() {
         '0' + (i + 1) % NUM_PHILOSOPHERS;
     
         // print forks string
-        printf(" %*s", NUM_PHILOSOPHERS, forks_str);
+        printf(" %s", forks_str);
 
         // print state
         if (philosophers[i].state == 1)
@@ -182,7 +176,7 @@ void put_down_fork(int phil, int fork, int is_left) {
     sem_post(&print_lock);
 }
 
-// philosopher thread     sem_wait(&forks[fork]);
+// philosopher thread
 void *philosopher(void *arg) {
     int id;
     int left;
