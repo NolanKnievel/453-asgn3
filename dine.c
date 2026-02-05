@@ -217,8 +217,14 @@ void *philosopher(void *arg) {
         }
 
         // eating
+        // philosophers[id].state = 1;
+        // status_change();
+
+        sem_wait(&print_lock);
         philosophers[id].state = 1;
-        status_change();
+        print_row();
+        sem_post(&print_lock);
+
         // dawdle while eating
         dawdle();
 
@@ -230,8 +236,15 @@ void *philosopher(void *arg) {
         put_down_fork(id, right, 0);
 
         // thinking
+        // philosophers[id].state = 2;
+        // status_change();
+
+        sem_wait(&print_lock);
         philosophers[id].state = 2;
-        status_change();
+        print_row();
+        sem_post(&print_lock);
+
+
         // dawdle while thinking
         dawdle();
     }
