@@ -16,21 +16,15 @@
 #define DAWDLEFACTOR 1000
 #endif
 
-// typedef enum {
-//     STATE_CHANGING,
-//     STATE_EATING,
-//     STATE_THINKING
-// } state_t;
-
 
 // philosopher struct
 typedef struct {
     int state; // 0=changing, 1=eating, 2=thinking
     int has_left;
     int has_right;
-} philosopher_t;
+} philosopher_st;
 
-static philosopher_t philosophers[NUM_PHILOSOPHERS];
+static philosopher_st philosophers[NUM_PHILOSOPHERS];
 static sem_t forks[NUM_PHILOSOPHERS];
 static sem_t print_lock;
 
