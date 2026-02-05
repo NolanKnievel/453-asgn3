@@ -189,7 +189,6 @@ int main(int argc, char *argv[]) {
     int i;
     pthread_t tids[NUM_PHILOSOPHERS];
     int ids[NUM_PHILOSOPHERS];
-    struct timeval tv;
 
     if (argc > 2) {
         fprintf(stderr, "usage: %s [cycles]\n", argv[0]);
