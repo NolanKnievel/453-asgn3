@@ -79,13 +79,9 @@ void print_row() {
     int j;
     char forks_str[NUM_PHILOSOPHERS + 1];
     forks_str[NUM_PHILOSOPHERS] = '\0';
+
+
     
-    // print padding
-    int pad = NUM_PHILOSOPHERS - 5;
-    if (pad < 0) pad = 0;
-
-
-
     printf("|");
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         // initialize forks string
@@ -102,22 +98,13 @@ void print_row() {
         printf(" %*s", NUM_PHILOSOPHERS, forks_str);
 
         // print state
-        if (philosophers[i].state == 1) {
-            printf(" Eat");
-            for (j = 0; j < pad; j++) printf(" ");
-            printf(" |");
-        }
-        else if (philosophers[i].state == 2) {
-            printf(" Think");
-            for (j = 0; j < pad - 1; j++) printf(" ");
-            printf(" |");
-        }
-        else {
-            for (j = 0; j < NUM_PHILOSOPHERS + 1; j++) printf(" ");
-            printf("|");
-        }
-    
-        }
+        if (philosophers[i].state == 1)
+            printf(" Eat   |");
+        else if (philosophers[i].state == 2)
+            printf(" Think |");
+        else
+            printf("       |");
+    }
     printf("\n");
 }
 
