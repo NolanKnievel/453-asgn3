@@ -218,7 +218,8 @@ void *philosopher(void *arg) {
         // eating
         philosophers[id].state = 1;
         status_change();
-        dawdle while eating
+        
+        // dawdle while eating
         dawdle();
 
         // changing
