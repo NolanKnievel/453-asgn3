@@ -230,7 +230,7 @@ int main(int argc, char *argv[]) {
     }
 
     print_header();
-    status_change();
+    wait_and_print();
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         ids[i] = i;
