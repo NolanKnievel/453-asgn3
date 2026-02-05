@@ -16,6 +16,8 @@
 #define DAWDLEFACTOR 1000
 #endif
 
+#define COL_WIDTH (NUM_PHILOSOPHERS * 2 + 7)
+
 
 // philosopher struct
 typedef struct {
@@ -57,11 +59,11 @@ void dawdle() {
 // helper function to print the header
 void print_header() {
     int i;
-    char equal_chars_str[NUM_PHILOSOPHERS+19];
+    char equal_chars_str[COL_WIDTH+1];
     // char equal_space_str[NUM_PHILOSOPHERS+5];
 
-    equal_chars_str[NUM_PHILOSOPHERS+18] = '\0';
-    for(i=0; i<NUM_PHILOSOPHERS+18; i++) {
+    equal_chars_str[COL_WIDTH] = '\0';
+    for(i=0; i<COL_WIDTH; i++) {
         equal_chars_str[i] = '=';
     }
 
@@ -77,9 +79,16 @@ void print_header() {
         printf("%s|", equal_chars_str);
     printf("\n|");
 
-    for (i = 0; i < NUM_PHILOSOPHERS; i++)
-        printf(" %-*c |", NUM_PHILOSOPHERS + 10, 'A' + i);
-    printf("\n|");
+    for (i = 0; i < NUM_PHILOSOPHERS; i++) {
+        int left_pad = (COL_WIDTH - 1) / 2;
+        int right_pad = COL_WIDTH - left_pad - 1;
+
+        for (j = 0; j < left_pad; j++) printf(" ");
+        printf("%c", 'A' + i);
+        for (j = 0; j < right_pad; j++) printf(" ");
+
+        printf("|");
+    }
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         printf("%s|", equal_chars_str);
