@@ -83,7 +83,7 @@ void print_row() {
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         // initialize forks string
         for(j=0; j<NUM_PHILOSOPHERS; j++) {
-            forks_str[j] = '-'
+            forks_str[j] = '-';
         }
 
         if (philosophers[i].has_left)
