@@ -25,17 +25,10 @@ typedef struct {
 } philosopher_st;
 
 static philosopher_st philosophers[NUM_PHILOSOPHERS];
-static sem_t forks[NUM_PHILOSOPHERS];
-static sem_t print_lock;
+static sem_t forks[NUM_PHILOSOPHERS]; // forks - sempahores
+static sem_t print_lock; // semaphore to keep printing in sync
 
 static int cycles = 1;
-
-/* ---------- Utilities ---------- */
-
-void die(const char *msg) {
-    perror(msg);
-    exit(EXIT_FAILURE);
-}
 
 
 void dawdle() {
@@ -54,8 +47,7 @@ void dawdle() {
 }
 
 
-/* ---------- Printing ---------- */
-
+// helper function to print the header
 void print_header() {
     int i;
 
@@ -71,6 +63,7 @@ void print_header() {
     printf("\n");
 }
 
+// helper function to print philosopher state
 void print_row() {
     int i;
     char forks_str[6];
@@ -96,6 +89,7 @@ void print_row() {
     printf("\n");
 }
 
+// helper to keep printing synchronized
 void wait_and_print() {
     sem_wait(&print_lock);
     print_row();
@@ -206,11 +200,15 @@ int main(int argc, char *argv[]) {
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         if (sem_init(&forks[i], 0, 1) != 0)
-            die("sem_init");
+            perror("sem_init");
+            exit(EXIT_FAILURE);
+
 
     if (sem_init(&print_lock, 0, 1) != 0)
-        die("sem_init");
+        perror("sem_init");
+        exit(EXIT_FAILURE);
 
+    
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         philosophers[i].state = 0;
         philosophers[i].has_left = 0;
@@ -223,7 +221,9 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         ids[i] = i;
         if (pthread_create(&tids[i], NULL, philosopher, &ids[i]) != 0)
-            die("pthread_create");
+            perror("pthread_create");
+            exit(EXIT_FAILURE);
+
     }
 
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
