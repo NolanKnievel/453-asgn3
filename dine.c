@@ -199,10 +199,6 @@ void *philosopher(void *arg) {
 
     // start of eat-think cycle
     for (i = 0; i < cycles; i++) {
-        // hungry - changing
-        // philosophers[id].state = 0;
-        // status_change();
-
         // avoid deadlock
         // odds pickup left fork first, evens right fork
         if (id % 2 == 0) {
@@ -238,10 +234,6 @@ void *philosopher(void *arg) {
         philosophers[id].state = 0;
         status_change();
     }
-
-    // // one last print
-    // philosophers[id].state = 0;
-    // status_change();
     return NULL;
 }
 
@@ -269,10 +261,12 @@ int main(int argc, char *argv[]) {
     // initialize forks
     for (i = 0; i < NUM_PHILOSOPHERS; i++)
         if (sem_init(&forks[i], 0, 1) != 0)
+            exit(-1);
             die("sem_init");
 
     // initialize print lock
     if (sem_init(&print_lock, 0, 1) != 0)
+        exit(-1);
         die("sem_init");
 
     // initialize philosopher structs
@@ -290,6 +284,7 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < NUM_PHILOSOPHERS; i++) {
         ids[i] = i;
         if (pthread_create(&tids[i], NULL, philosopher, &ids[i]) != 0)
+            exit(-1);
             die("pthread_create");
     }
 
