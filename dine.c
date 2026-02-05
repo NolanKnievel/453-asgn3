@@ -217,21 +217,21 @@ void *philosopher(void *arg) {
         }
 
         // eating
-        philosophers[id].state = 1;
-        status_change();
+        // philosophers[id].state = 1;
+        // status_change();
         // dawdle while eating
         dawdle();
 
         // changing
-        philosophers[id].state = 0;
-        status_change();
+        // philosophers[id].state = 0;
+        // status_change();
 
         put_down_fork(id, left, 1);
         put_down_fork(id, right, 0);
 
         // thinking
-        philosophers[id].state = 2;
-        status_change();
+        // philosophers[id].state = 2;
+        // status_change();
         // dawdle while thinking
         dawdle();
     }
